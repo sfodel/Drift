@@ -4,7 +4,7 @@ Simulations of random ecological drift in microbial metacommunities under differ
 
 These simulations are performed using parameters for the frequency and the magnitude of drift that are derived experimentally. The respective experiments were performed using fluorescence-independent flow cytometry in synthetic microbial communities of up to three bacterial strains. For more details on the experimental methodology please see here: https://www.nature.com/articles/s41467-019-09306-7 
 
-The code used for these simulations is an attempt to generalize our findings for natural bacterial communities. 
+The code used for these simulations is an attempt to generalize our experimental findings for natural bacterial communities. 
 
 In our simulations, 100 communities of 2000 species whose starting populations follow a log-normal distribution (mean = 4, sd=1.1) grow for 1000 generations under varying degrees of dispersal and selection and under the presence or absence of drift. 
 
