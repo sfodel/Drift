@@ -23,14 +23,14 @@ Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, sel
   
   avg.BC.across <- vector(length=num.years)
   
-  avg.J.nodrift[1] <- mean(colSums(freq.2.mat[, (num.coms*year-99):(num.coms*year)]))
-  avg.J.drift[1] <- mean(colSums(freq.1.mat[, (num.coms*year-99):(num.coms*year)]))
-  avg.S.drift[1] <- mean(colSums(freq.1.mat[, (num.coms*year-99):(num.coms*year)]!=0))
-  avg.S.nodrift[1] <- mean(colSums(freq.2.mat[, (num.coms*year-99):(num.coms*year)]!=0))
-  avg.even.drift[1] <-  mean(diversity(t(freq.1.mat)[(num.coms*year-99):(num.coms*year),])/log(specnumber(t(freq.1.mat)[(num.coms*year-99):(num.coms*year),])))
-  avg.even.nodrift[1] <-  mean(diversity(t(freq.2.mat)[(num.coms*year-99):(num.coms*year),])/log(specnumber(t(freq.2.mat)[(num.coms*year-99):(num.coms*year),])))
-  avg.BC.drift[1] <- mean(vegdist(t(log(freq.1.mat[, (num.coms*year-99):(num.coms*year)]+1))))
-  avg.BC.nodrift[1] <- mean(vegdist(t(log(freq.2.mat[, (num.coms*year-99):(num.coms*year)]+1))))
+  avg.J.nodrift[1] <- mean(colSums(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]))
+  avg.J.drift[1] <- mean(colSums(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]))
+  avg.S.drift[1] <- mean(colSums(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]!=0))
+  avg.S.nodrift[1] <- mean(colSums(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]!=0))
+  avg.even.drift[1] <-  mean(diversity(t(freq.1.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])/log(specnumber(t(freq.1.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])))
+  avg.even.nodrift[1] <-  mean(diversity(t(freq.2.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])/log(specnumber(t(freq.2.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])))
+  avg.BC.drift[1] <- mean(vegdist(t(log(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]+1))))
+  avg.BC.nodrift[1] <- mean(vegdist(t(log(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]+1))))
   
   avg.BC.across[1] <- 0
   
@@ -45,14 +45,14 @@ Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, sel
   
   stdev.BC.across <- vector(length=num.years)
   
-  stdev.J.drift[1] <- sd(colSums(freq.1.mat[, (num.coms*year-99):(num.coms*year)]))
-  stdev.S.drift[1] <- sd(colSums(freq.1.mat[, (num.coms*year-99):(num.coms*year)]!=0))
-  stdev.even.drift[1] <- sd(diversity(t(freq.1.mat)[(num.coms*year-99):(num.coms*year),])/log(specnumber(t(freq.1.mat)[(num.coms*year-99):(num.coms*year),])))
-  stdev.BC.drift[1] <- sd(vegdist(t(log(freq.1.mat[, (num.coms*year-99):(num.coms*year)]+1))))
-  stdev.J.nodrift[1] <- sd(colSums(freq.2.mat[, (num.coms*year-99):(num.coms*year)]))
-  stdev.S.nodrift[1] <- sd(colSums(freq.2.mat[, (num.coms*year-99):(num.coms*year)]!=0))
-  stdev.even.nodrift[1] <- sd(diversity(t(freq.2.mat)[(num.coms*year-99):(num.coms*year),])/log(specnumber(t(freq.2.mat)[(num.coms*year-99):(num.coms*year),])))
-  stdev.BC.nodrift[1] <- sd(vegdist(t(log(freq.2.mat[, (num.coms*year-99):(num.coms*year)]+1))))
+  stdev.J.drift[1] <- sd(colSums(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]))
+  stdev.S.drift[1] <- sd(colSums(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]!=0))
+  stdev.even.drift[1] <- sd(diversity(t(freq.1.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])/log(specnumber(t(freq.1.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])))
+  stdev.BC.drift[1] <- sd(vegdist(t(log(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]+1))))
+  stdev.J.nodrift[1] <- sd(colSums(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]))
+  stdev.S.nodrift[1] <- sd(colSums(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]!=0))
+  stdev.even.nodrift[1] <- sd(diversity(t(freq.2.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])/log(specnumber(t(freq.2.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])))
+  stdev.BC.nodrift[1] <- sd(vegdist(t(log(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]+1))))
   
   stdev.BC.across[1] <- 0
   
@@ -86,46 +86,46 @@ Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, sel
     growth.mat.drift <- growth.mat.nodrift*(1-hit.drift)
     
     #Grow drift-impacted communities
-    freq.1.mat[, (num.coms*year-99):(num.coms*year)] <- freq.1.mat[, (num.coms*(year-2)+1):(num.coms*(year-1))]*growth.mat.drift
+    freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] <- freq.1.mat[, (num.coms*(year-2)+1):(num.coms*(year-1))]*growth.mat.drift
     
     #Dispersal in drift-impacted communities
-    freq.1.disp <- disp.rate*freq.1.mat[, (num.coms*year-99):(num.coms*year)] #A (species * (comms-1)) matrix with the immigrant numbers. We will fix the first community in the end.
-    freq.1.mat[, (num.coms*year-98):(num.coms*year)] <- (1-disp.rate)*freq.1.mat[, (num.coms*year-98):(num.coms*year)]+freq.1.disp[,1:99] #Communities from the second to the last receive immigrants from the first to the one-before-last
-    freq.1.mat[, (num.coms*year-99)] <- (1-disp.rate)*freq.1.mat[, (num.coms*year-99)]+freq.1.disp[,100] ##First community gets immigrants from the last community
+    freq.1.disp <- disp.rate*freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] #A (species * (comms-1)) matrix with the immigrant numbers. We will fix the first community in the end.
+    freq.1.mat[, (num.coms*year-(num.coms -2)):(num.coms*year)] <- (1-disp.rate)*freq.1.mat[, (num.coms*year-(num.coms -2)):(num.coms*year)]+freq.1.disp[,1:(num.coms -1)] #Communities from the second to the last receive immigrants from the first to the one-before-last
+    freq.1.mat[, (num.coms*year-(num.coms -1))] <- (1-disp.rate)*freq.1.mat[, (num.coms*year-(num.coms -1))]+freq.1.disp[,num.coms] ##First community gets immigrants from the last community
     
     #Extinction of populations with less than 0.5 individuals
-    freq.1.mat[freq.1.mat[, (num.coms*year-99):(num.coms*year)] <= 0.5] <- 0 #species with 0.5 or less individuals get extinct
+    freq.1.mat[freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] <= 0.5] <- 0 #species with 0.5 or less individuals get extinct
     
     ##Record drift-impacted communities
-    avg.J.drift[j] <- mean(colSums(freq.1.mat[, (num.coms*year-99):(num.coms*year)]))
-    avg.S.drift[j] <- mean(colSums(freq.1.mat[, (num.coms*year-99):(num.coms*year)]!=0))
-    avg.even.drift[j] <- mean(diversity(t(freq.1.mat)[(num.coms*year-99):(num.coms*year),])/log(specnumber(t(freq.1.mat)[(num.coms*year-99):(num.coms*year),])))
-    stdev.J.drift[j] <- sd(colSums(freq.1.mat[, (num.coms*year-99):(num.coms*year)]))
-    stdev.S.drift[j] <- sd(colSums(freq.1.mat[, (num.coms*year-99):(num.coms*year)]!=0))
-    stdev.even.drift[j] <- sd(diversity(t(freq.1.mat)[(num.coms*year-99):(num.coms*year),])/log(specnumber(t(freq.1.mat)[(num.coms*year-99):(num.coms*year),])))
-    avg.BC.drift[j] <- mean(vegdist(t(log(freq.1.mat[, (num.coms*year-99):(num.coms*year)]+1))))
-    stdev.BC.drift[j] <- sd(vegdist(t(log(freq.1.mat[, (num.coms*year-99):(num.coms*year)]+1))))
+    avg.J.drift[j] <- mean(colSums(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]))
+    avg.S.drift[j] <- mean(colSums(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]!=0))
+    avg.even.drift[j] <- mean(diversity(t(freq.1.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])/log(specnumber(t(freq.1.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])))
+    stdev.J.drift[j] <- sd(colSums(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]))
+    stdev.S.drift[j] <- sd(colSums(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]!=0))
+    stdev.even.drift[j] <- sd(diversity(t(freq.1.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])/log(specnumber(t(freq.1.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])))
+    avg.BC.drift[j] <- mean(vegdist(t(log(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]+1))))
+    stdev.BC.drift[j] <- sd(vegdist(t(log(freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]+1))))
     
     #Grow drift-free communities
-    freq.2.mat[, (num.coms*year-99):(num.coms*year)] <- freq.2.mat[, (num.coms*(year-2)+1):(num.coms*(year-1))]*growth.mat.nodrift
+    freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] <- freq.2.mat[, (num.coms*(year-2)+1):(num.coms*(year-1))]*growth.mat.nodrift
     
     #Dispersal in drift-free communities
-    freq.2.disp <- disp.rate*freq.2.mat[, (num.coms*year-99):(num.coms*year)] #A (species * (comms-1)) matrix with the immigrant numbers. We will fix the first community in the end.
-    freq.2.mat[, (num.coms*year-98):(num.coms*year)] <- (1-disp.rate)*freq.2.mat[, (num.coms*year-98):(num.coms*year)]+freq.2.disp[,1:99] #Communities from the second to the last receive immigrants from the first to the one-before-last
-    freq.2.mat[, (num.coms*year-99)] <- (1-disp.rate)*freq.2.mat[, (num.coms*year-99)]+freq.2.disp[,100] ##First community gets immigrants from the last community
+    freq.2.disp <- disp.rate*freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] #A (species * (comms-1)) matrix with the immigrant numbers. We will fix the first community in the end.
+    freq.2.mat[, (num.coms*year-(num.coms -2)):(num.coms*year)] <- (1-disp.rate)*freq.2.mat[, (num.coms*year-(num.coms -2)):(num.coms*year)]+freq.2.disp[,1:(num.coms -1)] #Communities from the second to the last receive immigrants from the first to the one-before-last
+    freq.2.mat[, (num.coms*year-(num.coms -1))] <- (1-disp.rate)*freq.2.mat[, (num.coms*year-(num.coms -1))]+freq.2.disp[,num.coms] ##First community gets immigrants from the last community
     
     #Extinction of populations with less than 0.5 individuals
-    freq.2.mat[freq.2.mat[, (num.coms*year-99):(num.coms*year)] <= 0.5] <- 0 #species with 0.5 or less individuals get extinct
+    freq.2.mat[freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] <= 0.5] <- 0 #species with 0.5 or less individuals get extinct
     
     #Record drift-free communities
-    avg.J.nodrift[j] <- mean(colSums(freq.2.mat[, (num.coms*year-99):(num.coms*year)]))
-    avg.S.nodrift[j] <- mean(colSums(freq.2.mat[, (num.coms*year-99):(num.coms*year)]!=0))
-    avg.even.nodrift[j] <- diversity(t(freq.2.mat)[(num.coms*year-99),])/log(specnumber(t(freq.2.mat)[(num.coms*year-99),]))
-    stdev.J.nodrift[j] <- sd(colSums(freq.2.mat[, (num.coms*year-99):(num.coms*year)]))
-    stdev.S.nodrift[j] <- sd(colSums(freq.2.mat[, (num.coms*year-99):(num.coms*year)]!=0))
-    stdev.even.nodrift[j] <- sd(diversity(t(freq.2.mat)[(num.coms*year-99):(num.coms*year),])/log(specnumber(t(freq.2.mat)[(num.coms*year-99):(num.coms*year),])))
-    avg.BC.nodrift[j] <- mean(vegdist(t(log(freq.2.mat[, (num.coms*year-99):(num.coms*year)]+1))))
-    stdev.BC.nodrift[j] <- sd(vegdist(t(log(freq.2.mat[, (num.coms*year-99):(num.coms*year)]+1))))
+    avg.J.nodrift[j] <- mean(colSums(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]))
+    avg.S.nodrift[j] <- mean(colSums(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]!=0))
+    avg.even.nodrift[j] <- diversity(t(freq.2.mat)[(num.coms*year-(num.coms -1)),])/log(specnumber(t(freq.2.mat)[(num.coms*year-(num.coms -1)),]))
+    stdev.J.nodrift[j] <- sd(colSums(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]))
+    stdev.S.nodrift[j] <- sd(colSums(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]!=0))
+    stdev.even.nodrift[j] <- sd(diversity(t(freq.2.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])/log(specnumber(t(freq.2.mat)[(num.coms*year-(num.coms -1)):(num.coms*year),])))
+    avg.BC.nodrift[j] <- mean(vegdist(t(log(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]+1))))
+    stdev.BC.nodrift[j] <- sd(vegdist(t(log(freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)]+1))))
     
     #Trying to calculate BC_across
     temp.BC.across <- vector(length=num.coms)
@@ -145,7 +145,7 @@ Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, sel
   rm(freq.1.mat)
   rm(freq.2.mat)
   
-  generations <- c(1:1000)
+  generations <- c(1:num.years)
   
   all_data <- data.frame(generations,avg.J.drift,avg.S.drift,avg.even.drift,stdev.J.drift,stdev.S.drift,stdev.even.drift,avg.BC.drift,stdev.BC.drift,avg.J.nodrift,avg.S.nodrift,avg.even.nodrift,stdev.J.nodrift,stdev.S.nodrift,stdev.even.nodrift,avg.BC.nodrift,stdev.BC.nodrift, avg.BC.across, stdev.BC.across)
   
