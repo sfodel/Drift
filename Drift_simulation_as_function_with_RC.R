@@ -1,4 +1,4 @@
-Drift_simulation_RC <- function(num.species=2000, num.coms=100, num.years=1000, selection.strength, disp.rate, disp.lim=TRUE) {
+Drift_simulation_RC <- function(num.species=2000, num.coms=100, num.years=1000, selection.strength, disp.rate) {
   
   ##This script grows communities with and without drift just like the main script and calculates the proportion of communities under dispersal limitation or homogenizing dispersal every 100 years
   ##To run this version of the script, you need first to load the modified RC script from James Stegen where you can replace "dist" with "bcdist" from package ecodist to make it run a bit faster. Please make sure your script is named <<raup_crick_abundance>> so that it can be called properly
@@ -69,11 +69,7 @@ Drift_simulation_RC <- function(num.species=2000, num.coms=100, num.years=1000, 
     ##Record drift-impacted communities
     if(check.integer(j/100) == TRUE){
     RC_temp_d <- raup_crick_abundance(spXsite = t(freq.1.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)]), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
-    if (disp.lim ==TRUE) {
       avg.DL.drift[j/100] <- sum(RC_temp_d > 0.95) / length(RC_temp_d) #proportion of dispersal-limited community pairs
-    }
-      else {avg.DL.drift[j/100] <- sum(RC_temp_d < -0.95) / length(RC_temp_d) #proportion of dispersal-limited community pairs
-      }
       rm(RC_temp_d)}
     
     #Grow drift-free communities
@@ -90,11 +86,7 @@ Drift_simulation_RC <- function(num.species=2000, num.coms=100, num.years=1000, 
     #Record drift-free communities
     if(check.integer(j/100) == TRUE){
     RC_temp_nd <- raup_crick_abundance(spXsite = t(freq.2.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)]), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
-    if (disp.lim ==TRUE) {
       avg.DL.nodrift[j/100] <- sum(RC_temp_nd > 0.95) / length(RC_temp_nd) #proportion of dispersal-limited community pairs
-    }
-    else {avg.DL.nodrift[j/100] <- sum(RC_temp_nd < -0.95) / length(RC_temp_nd) #proportion of dispersal-limited community pairs
-    }
     rm(RC_temp_nd)}
     
     print(year)
