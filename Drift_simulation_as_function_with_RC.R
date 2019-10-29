@@ -1,4 +1,4 @@
-Drift_simulation_RC <- function(num.species=2000, num.coms=100, num.years=1000, selection.strength, disp.rate) {
+Drift_simulation_RC <- function(num.species=2000, num.coms=100, num.years=1000, selection.strength, disp.rate, disp.lim=TRUE) {
   
   ##This script grows communities with and without drift just like the main script and calculates the proportion of communities under dispersal limitation or homogenizing dispersal every 100 years
   ##To run this version of the script, you need first to load the modified RC script from James Stegen where you can replace "dist" with "bcdist" from package ecodist to make it run a bit faster. Please make sure your script is named <<raup_crick_abundance>> so that it can be called properly
@@ -56,37 +56,47 @@ Drift_simulation_RC <- function(num.species=2000, num.coms=100, num.years=1000, 
     growth.mat.drift <- growth.mat.nodrift*(1-hit.drift)
     
     #Grow drift-impacted communities
-    freq.1.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)] <- freq.1.mat[, (num.coms*(year-2)+1):(num.coms*(year-1))]*growth.mat.drift
+    freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] <- freq.1.mat[, (num.coms*(year-2)+1):(num.coms*(year-1))]*growth.mat.drift
     
     #Dispersal in drift-impacted communities
-    freq.1.disp <- disp.rate*freq.1.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)] #A (species * (comms-1)) matrix with the immigrant numbers. We will fix the first community in the end.
-    freq.1.mat[, (num.coms*year-(num.coms-2)):(num.coms*year)] <- (1-disp.rate)*freq.1.mat[, (num.coms*year-(num.coms-2)):(num.coms*year)]+freq.1.disp[,1:(num.coms-1)] #Communities from the second to the last receive immigrants from the first to the one-before-last
-    freq.1.mat[, (num.coms*year-(num.coms-1))] <- (1-disp.rate)*freq.1.mat[, (num.coms*year-(num.coms-1))]+freq.1.disp[,num.coms] ##First community gets immigrants from the last community
+    freq.1.disp <- disp.rate*freq.1.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] #A (species * (comms-1)) matrix with the immigrant numbers. We will fix the first community in the end.
+    freq.1.mat[, (num.coms*year-(num.coms -2)):(num.coms*year)] <- (1-disp.rate)*freq.1.mat[, (num.coms*year-(num.coms -2)):(num.coms*year)]+freq.1.disp[,1:(num.coms -1)] #Communities from the second to the last receive immigrants from the first to the one-before-last
+    freq.1.mat[, (num.coms*year-(num.coms -1))] <- (1-disp.rate)*freq.1.mat[, (num.coms*year-(num.coms -1))]+freq.1.disp[,num.coms] ##First community gets immigrants from the last community
     
     #Extinction of populations with less than 0.5 individuals
     freq.1.mat[freq.1.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)] <= 0.5] <- 0 #species with 0.5 or less individuals get extinct
     
     ##Record drift-impacted communities
     if(check.integer(j/100) == TRUE){
-    RC_temp_d <- raup_crick_abundance(spXsite = t(freq.1.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)]), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
+    RC_temp_d <- raup_crick_abundance(spXsite = (log(t(freq.1.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)]))+1), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
+    if (disp.lim ==TRUE) {
       avg.DL.drift[j/100] <- sum(RC_temp_d > 0.95) / length(RC_temp_d) #proportion of dispersal-limited community pairs
+    }
+    if (disp.lim ==FALSE) {
+      avg.DL.drift[j/100] <- sum(RC_temp_d < -0.95) / length(RC_temp_d) #proportion of dispersal-homogenized community pairs
+      }
       rm(RC_temp_d)}
     
     #Grow drift-free communities
-    freq.2.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)] <- freq.2.mat[, (num.coms*(year-2)+1):(num.coms*(year-1))]*growth.mat.nodrift
+    freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] <- freq.2.mat[, (num.coms*(year-2)+1):(num.coms*(year-1))]*growth.mat.nodrift
     
     #Dispersal in drift-free communities
-    freq.2.disp <- disp.rate*freq.2.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)] #A (species * (comms-1)) matrix with the immigrant numbers. We will fix the first community in the end.
-    freq.2.mat[, (num.coms*year-(num.coms-2)):(num.coms*year)] <- (1-disp.rate)*freq.2.mat[, (num.coms*year-(num.coms-2)):(num.coms*year)]+freq.2.disp[,1:(num.coms-1)] #Communities from the second to the last receive immigrants from the first to the one-before-last
-    freq.2.mat[, (num.coms*year-(num.coms-1))] <- (1-disp.rate)*freq.2.mat[, (num.coms*year-(num.coms-1))]+freq.2.disp[,num.coms] ##First community gets immigrants from the last community
+    freq.2.disp <- disp.rate*freq.2.mat[, (num.coms*year-(num.coms -1)):(num.coms*year)] #A (species * (comms-1)) matrix with the immigrant numbers. We will fix the first community in the end.
+    freq.2.mat[, (num.coms*year-(num.coms -2)):(num.coms*year)] <- (1-disp.rate)*freq.2.mat[, (num.coms*year-(num.coms -2)):(num.coms*year)]+freq.2.disp[,1:(num.coms -1)] #Communities from the second to the last receive immigrants from the first to the one-before-last
+    freq.2.mat[, (num.coms*year-(num.coms -1))] <- (1-disp.rate)*freq.2.mat[, (num.coms*year-(num.coms -1))]+freq.2.disp[,num.coms] ##First community gets immigrants from the last community
     
     #Extinction of populations with less than 0.5 individuals
     freq.2.mat[freq.2.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)] <= 0.5] <- 0 #species with 0.5 or less individuals get extinct
     
     #Record drift-free communities
     if(check.integer(j/100) == TRUE){
-    RC_temp_nd <- raup_crick_abundance(spXsite = t(freq.2.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)]), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
+    RC_temp_nd <- raup_crick_abundance(spXsite = (log(t(freq.2.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)]))+1), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
+    if (disp.lim ==TRUE) {
       avg.DL.nodrift[j/100] <- sum(RC_temp_nd > 0.95) / length(RC_temp_nd) #proportion of dispersal-limited community pairs
+    }
+    if (disp.lim ==FALSE) {
+      avg.DL.nodrift[j/100] <- sum(RC_temp_nd < -0.95) / length(RC_temp_nd) #proportion of dispersal-homogenized community pairs
+    }
     rm(RC_temp_nd)}
     
     print(year)
