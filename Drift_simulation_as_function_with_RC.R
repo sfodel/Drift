@@ -68,7 +68,7 @@ Drift_simulation_RC <- function(num.species=2000, num.coms=100, num.years=1000, 
     
     ##Record drift-impacted communities
     if(check.integer(j/100) == TRUE){
-    RC_temp_d <- raup_crick_abundance(spXsite = (log(t(freq.1.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)]))+1), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
+    RC_temp_d <- raup_crick_abundance(spXsite = (log(t(freq.1.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)])+1)), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
     if (disp.lim ==TRUE) {
       avg.DL.drift[j/100] <- sum(RC_temp_d > 0.95) / length(RC_temp_d) #proportion of dispersal-limited community pairs
     }
@@ -90,7 +90,7 @@ Drift_simulation_RC <- function(num.species=2000, num.coms=100, num.years=1000, 
     
     #Record drift-free communities
     if(check.integer(j/100) == TRUE){
-    RC_temp_nd <- raup_crick_abundance(spXsite = (log(t(freq.2.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)]))+1), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
+    RC_temp_nd <- raup_crick_abundance(spXsite = (log(t(freq.2.mat[, (num.coms*year-(num.coms-1)):(num.coms*year)])+1)), plot_names_in_col1 = FALSE, reps =99, as.distance.matrix = TRUE)
     if (disp.lim ==TRUE) {
       avg.DL.nodrift[j/100] <- sum(RC_temp_nd > 0.95) / length(RC_temp_nd) #proportion of dispersal-limited community pairs
     }
