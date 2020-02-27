@@ -73,7 +73,7 @@ Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, sel
     
     ## specify drift based on its distribution according to experimental data. Numbers here are CVs##
     drift <- rlnorm(num.species, meanlog = 0.625, sdlog=0.889) 
-    rand <- sample(num.species,ceiling(0.806*num.species)) #create random number sequences selecting from a string of length=num.species. Drift hits randomly the remaining 16% of the communities.
+    rand <- sample(num.species,ceiling(0.806*num.species)) #create random number sequences selecting from a string of length=num.species. Drift hits randomly the remaining 19.4% of the communities.
     drift[rand] <- 0 #replace the drift values with 0s at the random positions
     
     ##specify the growth rates at each generation##
