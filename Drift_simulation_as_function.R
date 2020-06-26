@@ -164,7 +164,7 @@ Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, sel
     
     generations <- c(1:num.years)
     
-    all_data <- data.frame(generations,avg.J.drift,avg.S.drift,avg.even.drift,stdev.J.drift,stdev.S.drift,stdev.even.drift,avg.BC.drift,stdev.BC.drift,avg.J.nodrift,avg.S.nodrift,avg.even.nodrift,stdev.J.nodrift,stdev.S.nodrift,stdev.even.nodrift,avg.BC.nodrift,stdev.BC.nodrift, avg.BC.across, stdev.BC.across)
+    all_data <- data.frame(generations,avg.J.drift,avg.S.drift,avg.even.drift,stdev.J.drift,stdev.S.drift,stdev.even.drift,avg.BC.drift,stdev.BC.drift,avg.J.nodrift,avg.S.nodrift,avg.even.nodrift,stdev.J.nodrift,stdev.S.nodrift,stdev.even.nodrift,avg.BC.nodrift,stdev.BC.nodrift, avg.BC.across, stdev.BC.across, avg.DJ.across, stdev.DJ.across)
   }
   
   else {
