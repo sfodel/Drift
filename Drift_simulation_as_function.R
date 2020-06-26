@@ -1,4 +1,4 @@
-Drift_simulation_shuffle <- function(num.species=2000, num.coms=100, num.years=1000, selection.strength, disp.rate, CI, stats, disp.change.interval=NULL) {
+Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, selection.strength, disp.rate, CI, stats, disp.change.interval=NULL) {
   library(vegan)
   
   year <- 1
