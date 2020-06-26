@@ -1,10 +1,10 @@
-Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, selection.strength, disp.rate, CI, stats) {
+Drift_simulation_shuffle <- function(num.species=2000, num.coms=100, num.years=1000, selection.strength, disp.rate, CI, stats, disp.change.interval=NULL) {
   library(vegan)
   
   year <- 1
   
   freq.1.mat <- matrix(nrow = num.species, ncol = num.coms*2) ##We will record growth with drift in this matrix##
-  
+  colnames(freq.1.mat) <- c(1:(num.coms*2))
   start.abundances <- ceiling(rlnorm(num.species, meanlog=4, sdlog=1.1)) #draw the means of the populations across the metacommunity
   for (i in 1:num.species) {
     freq.1.mat[i,1:num.coms] <- rnorm(num.coms, mean=start.abundances[i], sd=selection.strength)
@@ -70,6 +70,13 @@ Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, sel
     else if (CI == "mean") {
       drift <- rexp(num.species, rate = 0.4227031) ##replace here when drift magnitude is calculated based on the mean noise
     }
+    #else if ( CI == "lower") {
+    # drift <- rlnorm(num.species, meanlog = 0.625, sdlog=0.889) ##replace here when drift magnitude is calculated based on the lower 99CI noise
+    #}
+    
+    
+    #rand <- sample(num.species,0.806*num.species) #create random number sequences selecting from a string of length=num.species. Drift hits randomly the remaining 16% of the communities.
+    #drift[rand] <- 0 #replace the drift values with 0s at the random positions
     
     ##specify the growth rates at each generation##
     growth.mat.nodrift <- matrix(nrow = num.species, ncol = num.coms) ##empty matrix to start with##
@@ -153,10 +160,16 @@ Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, sel
     
     freq.1.mat[, 1:num.coms] <- freq.1.mat[, (num.coms+1):(num.coms*2)]
     freq.2.mat[, 1:num.coms] <- freq.2.mat[, (num.coms+1):(num.coms*2)]
-    
+    if (length(disp.change.interval!=0)) {
+    if (year %in% seq(from=disp.change.interval, to=num.years, by=disp.change.interval)){
+    coms.shuf <- colnames(freq.1.mat[,sample(ncol(freq.1.mat[,1:num.coms]))]) ######SHUFFLING SO THAT DISPERSAL DIRECTION CHANGES IN THE NEXT GENERATION#####
+    freq.1.mat <- freq.1.mat[,c(coms.shuf, colnames(freq.1.mat)[(num.coms+1):(num.coms*2)])]  ##MAKING SURE DISPERSAL CHANGES IDENTICALLY IN BOTH METACOMMUNITIES###
+    freq.2.mat <- freq.2.mat[,c(coms.shuf, colnames(freq.2.mat)[(num.coms+1):(num.coms*2)])]  ##MAKING SURE DISPERSAL CHANGES IDENTICALLY IN BOTH METACOMMUNITIES###
+    }
+    }
     print(c(year, timestamp()))
-    
-  }
+    }
+  
   
   if (stats==TRUE) {
     rm(freq.1.mat)
@@ -170,18 +183,19 @@ Drift_simulation <- function(num.species=2000, num.coms=100, num.years=1000, sel
   else {
     for (o in 1:num.coms){
       for (p in 1:num.species) {
-        if (freq.1.mat[p,o]==0 & freq.2.mat[p,o]!=0) {    #Find species extinct under drift only
-          freq.1.mat[p, (num.coms+o)] <- start.abundances[p]  #Replace the values in each community with their starting counts
+        if (freq.1.mat[p,o]==0 & freq.2.mat[p,o]!=0) {
+          freq.1.mat[p, (num.coms+o)] <- start.abundances[p]
         }
         else {
-          freq.1.mat[p, (num.coms+o)] <- NA  #Assign NA to the rest of the species
+          freq.1.mat[p, (num.coms+o)] <- NA
         }
       }
     }
-    freq.1.mat[, (num.coms+1):(num.coms*2)] <- (freq.1.mat[, (num.coms+1):(num.coms*2)]*100)/sum(start.abundances) #Transform initial counts into relative abundances
+    freq.1.mat[, (num.coms+1):(num.coms*2)] <- (freq.1.mat[, (num.coms+1):(num.coms*2)]*100)/sum(start.abundances)
     all_data <- (freq.1.mat[, (num.coms+1):(num.coms*2)])
     rm(freq.1.mat)
     rm(freq.2.mat)
   }
   return(all_data)
 }
+
