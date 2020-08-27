@@ -1,5 +1,5 @@
 # Drift
-Simulations of random ecological drift in microbial metacommunities under different selection and dispersal regimes
+Simulations of random ecological drift in microbial metacommunities under different selection and dispersal regimes, used in the following ISME Journal paper: https://www.nature.com/articles/s41396-020-00754-4.epdf
 
 
 These simulations are performed using parameters for the frequency and the magnitude of drift that are derived experimentally. The respective experiments were performed using fluorescence-independent flow cytometry in synthetic microbial communities of up to three bacterial strains. For more details on the experimental methodology please see here: https://www.nature.com/articles/s41467-019-09306-7 
